@@ -5,6 +5,7 @@ import (
 	"flag"
 	"log"
 	"os"
+	"time"
 )
 
 //GetYNABDate converts Rabo date format to YNAB date format
@@ -55,9 +56,11 @@ func readCSV(filepath string) ([][]string, error) {
 }
 
 var input string
+var output string
 
 func init() {
 	flag.StringVar(&input, "input", "transactions.txt", "csv file")
+	flag.StringVar(&output, "output", "ynabTransactions.csv", "csv file")
 	flag.Parse()
 }
 
@@ -70,7 +73,7 @@ func main() {
 	}
 
 	// write results to a new csv
-	outfile, err := os.Create("ynabTransactions.csv")
+	outfile, err := os.Create(output + time.Now().String())
 	if err != nil {
 		log.Fatal("Unable to open output")
 	}
@@ -83,7 +86,7 @@ func main() {
 		category := ""
 		memo := record[10]
 		outflow := GetYNABOutflow(record[3], record[4])
-		inflow := GetYNABOutflow(record[3], record[4])
+		inflow := GetYNABInflow(record[3], record[4])
 
 		writer.Write([]string{date, payee, category, memo, outflow, inflow})
 	}
