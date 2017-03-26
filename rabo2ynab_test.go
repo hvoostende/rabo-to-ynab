@@ -6,7 +6,7 @@ import (
 )
 
 func TestReadCSV(t *testing.T) {
-	v, _ := readCSV("test.csv")
+	v, _ := readCSV("test1.txt")
 	_, err := readCSV("error")
 	c := [][]string{{"test1", "test2"}, {"test3", "test4"}}
 	if v[0][0] != c[0][0] {
@@ -61,7 +61,7 @@ func TestGetYNABDOutfow(t *testing.T) {
 }
 
 func TestMain(t *testing.T) {
-	input = "test.txt"
+	input = "test2.txt"
 	main()
 
 }

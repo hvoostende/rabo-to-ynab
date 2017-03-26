@@ -60,7 +60,7 @@ var output string
 
 func init() {
 	flag.StringVar(&input, "input", "transactions.txt", "csv file")
-	flag.StringVar(&output, "output", "ynabTransactions.csv", "csv file")
+	flag.StringVar(&output, "output", "ynabTransactions", "csv file")
 	flag.Parse()
 }
 
@@ -73,12 +73,15 @@ func main() {
 	}
 
 	// write results to a new csv
-	outfile, err := os.Create(output + time.Now().String())
+	outfile, err := os.Create(output + time.Now().String() + ".csv")
 	if err != nil {
 		log.Fatal("Unable to open output")
 	}
 	defer outfile.Close()
 	writer := csv.NewWriter(outfile)
+
+	//write header
+	writer.Write([]string{"Date", "Payee", "Category", "Memo", "Outflow", "Inflow"})
 
 	for _, record := range records {
 		date := GetYNABDate(record[2])

@@ -1,4 +1,4 @@
 # output files
 *.DS_Store
 transactions.txt
-ynabTransactions.csv
+*.csv
