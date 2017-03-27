@@ -9,8 +9,12 @@ func TestReadCSV(t *testing.T) {
 	v, _ := readCSV("test1.txt")
 	_, err := readCSV("error")
 	c := [][]string{{"test1", "test2"}, {"test3", "test4"}}
-	if v[0][0] != c[0][0] {
-		t.Error("Expected test1 got:", v[0][0])
+	for i := 0; i < 2; i++ {
+		for j := 0; j < 2; j++ {
+			if v[i][j] != c[i][j] {
+				t.Error("Expected", c[i][j], "got:", v[i][j])
+			}
+		}
 	}
 
 	errMessage := errors.New("open error: no such file or directory")
@@ -62,6 +66,21 @@ func TestGetYNABDOutfow(t *testing.T) {
 
 func TestMain(t *testing.T) {
 	input = "test2.txt"
+	output = "test2o.txt"
+	test = true
 	main()
+
+	out, _ := readCSV("test2o.txt.csv")
+	check := [][]string{{"Date", "Payee", "Category", "Memo", "Outflow", "Inflow"},
+		{"25/02/2017", "T. DE BRAAK", "", "TEST", "500.00", ""},
+		{"25/02/2017", "N.DEN DOLDER", "", "TESTTESTTEST", "", "4.00"}}
+
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 6; j++ {
+			if out[i][j] != check[i][j] {
+				t.Error("Expected", check[i][j], "got:", out[i][j])
+			}
+		}
+	}
 
 }

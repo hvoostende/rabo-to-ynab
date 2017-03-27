@@ -57,10 +57,12 @@ func readCSV(filepath string) ([][]string, error) {
 
 var input string
 var output string
+var test bool
 
 func init() {
 	flag.StringVar(&input, "input", "transactions.txt", "csv file")
 	flag.StringVar(&output, "output", "ynabTransactions", "csv file")
+	flag.BoolVar(&test, "test", false, "switch to true for main testing")
 	flag.Parse()
 }
 
@@ -73,7 +75,11 @@ func main() {
 	}
 
 	// write results to a new csv
-	outfile, err := os.Create(output + time.Now().String() + ".csv")
+	if !test {
+		output = output + time.Now().String()
+	}
+
+	outfile, err := os.Create(output + ".csv")
 	if err != nil {
 		log.Fatal("Unable to open output")
 	}
@@ -86,7 +92,7 @@ func main() {
 	for _, record := range records {
 		date := GetYNABDate(record[2])
 		payee := GetYNABPayee(record[6], record[10])
-		category := ""
+		category := "" //maybe create something to add category's for now let's do it in YNAB
 		memo := record[10]
 		outflow := GetYNABOutflow(record[3], record[4])
 		inflow := GetYNABInflow(record[3], record[4])
