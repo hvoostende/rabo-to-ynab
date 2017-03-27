@@ -71,7 +71,7 @@ func main() {
 	// load data csv
 	records, err := readCSV(input)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("could not find your bank transactions file", err)
 	}
 
 	// write results to a new csv
